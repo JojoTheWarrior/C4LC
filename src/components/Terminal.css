@@ -1,35 +1,25 @@
-/* App.css */
+@font-face {
+    font-family: 'DejaVu';
+    src: url('../assets/fonts/DejaVuSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 .terminal-container {
     background-color: black;
     color: green;
-    font-family: 'Courier New', monospace;
+    font-family: 'DejaVu', monospace;
     width: 100%;
-  }
-  
-  .terminal {
+}
+
+.terminal-line {
     display: flex;
-    align-items: center;
-  }
-  
-  .terminal-prompt {
+    justify-content: left;
+    align-content: center;
+}
+
+.terminal-prompt {
     color: green;
-    margin-right: 5px;
-  }
-  
-  .terminal-input {
-    background: none;
-    border: none;
-    outline: none;
-    color: green;
-    font-family: 'Courier New', monospace;
-    font-size: 1.2em;
-  }
-  
-  .submit-btn {
-    display: none; /* Optionally hide the submit button if using Enter key */
-  }
-  
-  input::placeholder {
-    color: #4CAF50;
-  }
-  
+    margin-left: 10px;
+    margin-right: 10px;
+}

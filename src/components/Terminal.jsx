@@ -7,36 +7,21 @@ const Terminal = () => {
   const [submitted, setSubmitted] = useState(false);
 
   /* array of elements representing the terminal */
-  const [terminal, setTerminal] = useState([]);
-
-  /* displaying solution */
-  const [solutions, setSolutions] = useState([]);
-  const [showTypedOutput, setShowTypedOutput] = useState(false);
-
-  useEffect(() => {
-    if (showTypedOutput) {
-      
-      const options = {
-        strings: solutions, // array of strings for each step in the solution
-        typeSpeed: 50,      
-        backSpeed: 25,      
-        showCursor: true,   // display cursor
-        cursorChar: "|",    // customize cursor character
-        loop: false         
-      };
-
-      // initialize typed.js on the element
-      // const typed = new Typed(typedElement.current, options);
-
-      // cleanup typed.js when the component unmounts
-      return () => {
-        // typed.destroy();
-      };
-    }
-  }, [showTypedOutput, solutions]);
+  const [terminal, setTerminal] = useState([
+    <p>Welcome to C4LC, a program to check your work for the Vectors Culminating Activity! </p>,
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+  ]);
 
   return (
-    <></>
+    <div className="terminal-container">
+        {/* render all previous lines */}
+        {terminal.map((line) => {
+            return <div className="terminal-line">
+                <p className="terminal-prompt">$</p>
+                {line}
+            </div>
+        })}
+    </div>
   );
 };
 
