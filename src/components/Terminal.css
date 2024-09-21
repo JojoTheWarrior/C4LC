@@ -1,0 +1,35 @@
+/* App.css */
+.terminal-container {
+    background-color: black;
+    color: green;
+    font-family: 'Courier New', monospace;
+    width: 100%;
+  }
+  
+  .terminal {
+    display: flex;
+    align-items: center;
+  }
+  
+  .terminal-prompt {
+    color: green;
+    margin-right: 5px;
+  }
+  
+  .terminal-input {
+    background: none;
+    border: none;
+    outline: none;
+    color: green;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+  }
+  
+  .submit-btn {
+    display: none; /* Optionally hide the submit button if using Enter key */
+  }
+  
+  input::placeholder {
+    color: #4CAF50;
+  }
+  
