@@ -16,7 +16,6 @@
 .terminal-line {
     display: flex;
     justify-content: left;
-    align-content: center;
 }
 
 .terminal-prompt {
