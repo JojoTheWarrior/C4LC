@@ -10,6 +10,7 @@ const Terminal = () => {
   const typedInstanceRef = useRef(null); // typed.js instance
 
   const [prevLine, setPrevLine] = useState("");
+  const [allLines, setAllLines] = useState("");
 
   const randomStrings = [
     "string 1",
@@ -35,7 +36,7 @@ const Terminal = () => {
 
     // initialize typed.js
     if (typedElementRef.current){
-        console.log(`start typing {newText}`)
+        console.log(`start typing ${newText}`)
         typedInstanceRef.current = new Typed(typedElementRef.current, {
             strings: [newText],
             typeSpeed: 25,
@@ -70,6 +71,7 @@ const Terminal = () => {
       await delay(typingDuration);
       setTerminal((prevLines) => [...prevLines, randomStrings[i]]);
     }
+    startTyping("OOOOOGHHHHH");
   }
 
   return (
