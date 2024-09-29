@@ -6,6 +6,7 @@ import Typed from "typed.js";
 const Terminal = () => {
   const [input, setInput] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [firstType, setFirstType] = useState(false);
 
   const typedElementRef = useRef(null); // current line being typed
   const typedInstanceRef = useRef(null); // typed.js instance
@@ -26,7 +27,7 @@ const Terminal = () => {
   /* array of elements representing the terminal */
   const [terminal, setTerminal] = useState([
     "Welcome to C4LC, a program to check your work for the Vectors Culminating Activity!",
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+    "Type in your student number below:"
   ]);
 
   const addNewLine = (newLineText) => {
@@ -41,7 +42,7 @@ const Terminal = () => {
         console.log(`start typing ${newText}`)
         typedInstanceRef.current = new Typed(typedElementRef.current, {
             strings: [newText],
-            typeSpeed: 25,
+            typeSpeed: 7,
             showCursor: false,
         });
     }
@@ -59,7 +60,10 @@ const Terminal = () => {
       return;
     } 
     console.log('started typing');
-    typeSequentially();
+    if (!firstType){
+      setFirstType(true);
+      typeSequentially();
+    }
   }, [allLines]);
 
   const handleKeyPress = async (event) => {
@@ -76,11 +80,9 @@ const Terminal = () => {
             studentNum: input,
           });
           const data = response.data;
-          console.log('data is', data);
 
           data.forEach((item, index) => {
             setAllLines((prevLines) => {
-              if (prevLines.length)
               return [...prevLines, `Step ${index + (index==14 ? 2 : 1)}: ${item}`];
             });
           });
@@ -97,11 +99,11 @@ const Terminal = () => {
     console.log(allLines);
     for (let i = 0; i < allLines.length; i++){
       addNewLine(allLines[i]);
-      const typingDuration = allLines[i].length * 25 + 1000;
+      const typingDuration = allLines[i].length * 10 + 500;
       await delay(typingDuration);
       setTerminal((prevLines) => [...prevLines, allLines[i]]);
     }
-    startTyping("OOOOOGHHHHH");
+    startTyping("Done!");
   }
 
   return (
@@ -134,12 +136,6 @@ const Terminal = () => {
             <p className="terminal-prompt">$</p>
             <p ref={typedElementRef}></p>
         </div>
-
-        <button onClick={() => {
-          addNewLine(randomStrings[Math.floor(Math.random() * randomStrings.length)])
-        }}>
-          Add new line
-        </button>
     </div>
   );
 };
