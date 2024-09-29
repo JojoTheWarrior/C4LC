@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Terminal.css';
+import axios from 'axios';
 import Typed from "typed.js";
 
 const Terminal = () => {
@@ -10,7 +11,8 @@ const Terminal = () => {
   const typedInstanceRef = useRef(null); // typed.js instance
 
   const [prevLine, setPrevLine] = useState("");
-  const [allLines, setAllLines] = useState("");
+
+  const [allLines, setAllLines] = useState(""); // what we get back from backend
 
   const randomStrings = [
     "string 1",
@@ -50,14 +52,26 @@ const Terminal = () => {
     addNewLine("hello random char random char");
   }
 
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+  const handleKeyPress = async (event) => {
+    if (event.key === 'Enter' && !submitted) {
       event.preventDefault();
       if (input.trim()) {
         console.log('Submitted Text:', input);
         setTerminal((prevLines) => [...prevLines, input]);
         setSubmitted(true);
-        typeSequentially();
+
+        // makes the request
+        try {
+          const response = await axios.post('https://c4lc-backend-761604726507.us-east1.run.app/calculate', {
+            studentNum: input,
+          });
+          console.log('response from server:', response.data);
+
+        } catch (error){
+          console.log('error from server:', error);
+        }
+
+        // typeSequentially();
       }
     }
   };
