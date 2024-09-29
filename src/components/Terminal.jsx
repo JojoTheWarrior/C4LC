@@ -12,7 +12,7 @@ const Terminal = () => {
 
   const [prevLine, setPrevLine] = useState("");
 
-  const [allLines, setAllLines] = useState(""); // what we get back from backend
+  const [allLines, setAllLines] = useState([]); // what we get back from backend
 
   const randomStrings = [
     "string 1",
@@ -52,6 +52,16 @@ const Terminal = () => {
     addNewLine("hello random char random char");
   }
 
+  useEffect(() => {
+    console.log('allLines updated', allLines);
+    if (allLines.length == 0){
+      console.log('initla load');
+      return;
+    } 
+    console.log('started typing');
+    typeSequentially();
+  }, [allLines]);
+
   const handleKeyPress = async (event) => {
     if (event.key === 'Enter' && !submitted) {
       event.preventDefault();
@@ -65,13 +75,18 @@ const Terminal = () => {
           const response = await axios.post('https://c4lc-backend-761604726507.us-east1.run.app/calculate', {
             studentNum: input,
           });
-          console.log('response from server:', response.data);
+          const data = response.data;
+          console.log('data is', data);
 
+          data.forEach((item, index) => {
+            setAllLines((prevLines) => {
+              if (prevLines.length)
+              return [...prevLines, `Step ${index + (index==14 ? 2 : 1)}: ${item}`];
+            });
+          });
         } catch (error){
           console.log('error from server:', error);
         }
-
-        // typeSequentially();
       }
     }
   };
@@ -79,11 +94,12 @@ const Terminal = () => {
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const typeSequentially = async () => {
-    for (let i = 0; i < randomStrings.length; i++){
-      addNewLine(randomStrings[i]);
-      const typingDuration = randomStrings[i].length * 25 + 1000;
+    console.log(allLines);
+    for (let i = 0; i < allLines.length; i++){
+      addNewLine(allLines[i]);
+      const typingDuration = allLines[i].length * 25 + 1000;
       await delay(typingDuration);
-      setTerminal((prevLines) => [...prevLines, randomStrings[i]]);
+      setTerminal((prevLines) => [...prevLines, allLines[i]]);
     }
     startTyping("OOOOOGHHHHH");
   }
